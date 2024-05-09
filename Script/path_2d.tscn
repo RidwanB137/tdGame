@@ -1,0 +1,153 @@
+[gd_scene load_steps=21 format=3 uid="uid://ds1yx6ptv8ftp"]
+
+[ext_resource type="Script" path="res://Script/PathFollow2D.gd" id="1_7qvsf"]
+[ext_resource type="Script" path="res://Script/unit.gd" id="2_kpo18"]
+[ext_resource type="Texture2D" uid="uid://bu3uxnyfinqhj" path="res://Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png" id="3_r33fn"]
+
+[sub_resource type="Curve2D" id="Curve2D_o10aj"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -465, 76, 0, 0, 0, 0, -437, 76, 0, 0, 0, 0, 2715, 57)
+}
+point_count = 3
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4x6at"]
+atlas = ExtResource("3_r33fn")
+region = Rect2(960, 384, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_twcfx"]
+atlas = ExtResource("3_r33fn")
+region = Rect2(768, 384, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_20b1v"]
+atlas = ExtResource("3_r33fn")
+region = Rect2(576, 384, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ecdgj"]
+atlas = ExtResource("3_r33fn")
+region = Rect2(384, 384, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6sqov"]
+atlas = ExtResource("3_r33fn")
+region = Rect2(192, 384, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jrpt2"]
+atlas = ExtResource("3_r33fn")
+region = Rect2(0, 384, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qffid"]
+atlas = ExtResource("3_r33fn")
+region = Rect2(960, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ltaf"]
+atlas = ExtResource("3_r33fn")
+region = Rect2(0, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e8alv"]
+atlas = ExtResource("3_r33fn")
+region = Rect2(192, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ds1rv"]
+atlas = ExtResource("3_r33fn")
+region = Rect2(384, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oe7wk"]
+atlas = ExtResource("3_r33fn")
+region = Rect2(576, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_capb7"]
+atlas = ExtResource("3_r33fn")
+region = Rect2(768, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ttt4"]
+atlas = ExtResource("3_r33fn")
+region = Rect2(960, 192, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gocm8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4x6at")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_twcfx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_20b1v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ecdgj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6sqov")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrpt2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qffid")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ltaf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e8alv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ds1rv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oe7wk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_capb7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ttt4")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_na5hv"]
+script/source = "extends AnimatedSprite2D
+
+
+# Called when the node enters the scene tree for the first time.
+func play_walk():
+	play(\"walk\")
+	
+func play_attack():
+	play(\"attack\")
+"
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nq3jt"]
+radius = 20.0
+height = 54.0
+
+[node name="Path2D" type="Path2D"]
+curve = SubResource("Curve2D_o10aj")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+position = Vector2(-465, 76)
+cubic_interp = false
+loop = false
+script = ExtResource("1_7qvsf")
+
+[node name="Unit" type="CharacterBody2D" parent="PathFollow2D"]
+script = ExtResource("2_kpo18")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PathFollow2D/Unit"]
+sprite_frames = SubResource("SpriteFrames_gocm8")
+animation = &"walk"
+frame_progress = 0.0178618
+script = SubResource("GDScript_na5hv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/Unit"]
+position = Vector2(0, -6)
+shape = SubResource("CapsuleShape2D_nq3jt")
